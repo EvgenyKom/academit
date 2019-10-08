@@ -38,8 +38,9 @@ public class Triangle implements Shape {
         double side12 = Math.sqrt((x1 - x2) * (x1 - x2) + (y1 - y2) * (y1 - y2));
         double side23 = Math.sqrt((x2 - x3) * (x2 - x3) + (y2 - y3) * (y2 - y3));
         double side31 = Math.sqrt((x1 - x3) * (x1 - x3) + (y1 - y3) * (y1 - y3));
+        double semiPerimeter = (side12 + side23 + side31) / 2;
 
-        return side12 + side23 + side31;
+        return Math.sqrt((semiPerimeter * (semiPerimeter - side12) * (semiPerimeter - side23) * (semiPerimeter - side31)));
     }
 
     @Override
@@ -47,8 +48,7 @@ public class Triangle implements Shape {
         double side12 = Math.sqrt((x1 - x2) * (x1 - x2) + (y1 - y2) * (y1 - y2));
         double side23 = Math.sqrt((x2 - x3) * (x2 - x3) + (y2 - y3) * (y2 - y3));
         double side31 = Math.sqrt((x1 - x3) * (x1 - x3) + (y1 - y3) * (y1 - y3));
-        double semiPerimeter = (side12 + side23 + side31) / 2;
 
-        return Math.sqrt((semiPerimeter * (semiPerimeter - side12) * (semiPerimeter - side23) * (semiPerimeter - side31)));
+        return side12 + side23 + side31;
     }
 }
