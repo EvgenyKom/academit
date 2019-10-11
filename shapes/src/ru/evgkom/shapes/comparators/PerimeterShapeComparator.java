@@ -1,4 +1,6 @@
-package ru.evgkom.shapes;
+package ru.evgkom.shapes.comparators;
+
+import ru.evgkom.shapes.Shape;
 
 import java.util.Comparator;
 

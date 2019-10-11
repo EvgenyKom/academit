@@ -1,6 +1,8 @@
 package ru.evgkom.main;
 
 import ru.evgkom.shapes.*;
+import ru.evgkom.shapes.comparators.AreaShapeComparator;
+import ru.evgkom.shapes.comparators.PerimeterShapeComparator;
 
 import java.util.Arrays;
 import java.util.Comparator;
