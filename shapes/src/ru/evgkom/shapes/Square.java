@@ -1,3 +1,5 @@
+package ru.evgkom.shapes;
+
 public class Square implements Shape {
     private double side;
 
@@ -27,7 +29,7 @@ public class Square implements Shape {
 
     @Override
     public String toString() {
-        return "Square{" +
+        return "ru.evgkom.shapes.Square{" +
                 "side=" + side +
                 '}';
     }

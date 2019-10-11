@@ -1,3 +1,7 @@
+package ru.evgkom.main;
+
+import ru.evgkom.shapes.*;
+
 import java.util.Arrays;
 import java.util.Comparator;
 

@@ -1,3 +1,5 @@
+package ru.evgkom.shapes;
+
 public interface Shape {
     double getWidth();
 
@@ -6,4 +8,5 @@ public interface Shape {
     double getArea();
 
     double getPerimeter();
+
 }

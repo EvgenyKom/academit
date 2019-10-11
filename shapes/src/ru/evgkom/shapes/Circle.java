@@ -1,3 +1,5 @@
+package ru.evgkom.shapes;
+
 public class Circle implements Shape {
     private double radius;
 
@@ -27,7 +29,7 @@ public class Circle implements Shape {
 
     @Override
     public String toString() {
-        return "Circle{" +
+        return "ru.evgkom.shapes.Circle{" +
                 "radius=" + radius +
                 '}';
     }

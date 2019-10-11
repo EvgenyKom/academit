@@ -1,4 +1,4 @@
-import java.util.Objects;
+package ru.evgkom.shapes;
 
 public class Rectangle implements Shape {
     private double width;
@@ -31,7 +31,7 @@ public class Rectangle implements Shape {
 
     @Override
     public String toString() {
-        return "Rectangle{" +
+        return "ru.evgkom.shapes.Rectangle{" +
                 "width=" + width +
                 ", height=" + height +
                 '}';

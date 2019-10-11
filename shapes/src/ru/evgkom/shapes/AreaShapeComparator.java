@@ -1,3 +1,5 @@
+package ru.evgkom.shapes;
+
 import java.util.Comparator;
 
 public class AreaShapeComparator implements Comparator<Shape> {

@@ -1,3 +1,5 @@
+package ru.evgkom.shapes;
+
 import java.util.Comparator;
 
 public class PerimeterShapeComparator implements Comparator<Shape> {

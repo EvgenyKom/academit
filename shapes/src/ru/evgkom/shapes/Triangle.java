@@ -1,3 +1,5 @@
+package ru.evgkom.shapes;
+
 public class Triangle implements Shape {
     private double x1;
     private double x2;
@@ -54,7 +56,7 @@ public class Triangle implements Shape {
 
     @Override
     public String toString() {
-        return "Triangle{" +
+        return "ru.evgkom.shapes.Triangle{" +
                 "x1=" + x1 +
                 ", x2=" + x2 +
                 ", x3=" + x3 +
