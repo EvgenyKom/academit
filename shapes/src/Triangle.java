@@ -51,4 +51,42 @@ public class Triangle implements Shape {
 
         return side12 + side23 + side31;
     }
+
+    @Override
+    public String toString() {
+        return "Triangle{" +
+                "x1=" + x1 +
+                ", x2=" + x2 +
+                ", x3=" + x3 +
+                ", y1=" + y1 +
+                ", y2=" + y2 +
+                ", y3=" + y3 +
+                '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Triangle triangle = (Triangle) o;
+        return Double.compare(triangle.x1, x1) == 0 &&
+                Double.compare(triangle.x2, x2) == 0 &&
+                Double.compare(triangle.x3, x3) == 0 &&
+                Double.compare(triangle.y1, y1) == 0 &&
+                Double.compare(triangle.y2, y2) == 0 &&
+                Double.compare(triangle.y3, y3) == 0;
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 7;
+        int hash = 1;
+        hash = prime * hash + Double.hashCode(x1);
+        hash = prime * hash + Double.hashCode(x2);
+        hash = prime * hash + Double.hashCode(x3);
+        hash = prime * hash + Double.hashCode(y1);
+        hash = prime * hash + Double.hashCode(y2);
+        hash = prime * hash + Double.hashCode(y3);
+        return hash;
+    }
 }

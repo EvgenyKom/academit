@@ -1,3 +1,5 @@
+import java.util.Objects;
+
 public class Rectangle implements Shape {
     private double width;
     private double height;
@@ -25,5 +27,30 @@ public class Rectangle implements Shape {
     @Override
     public double getPerimeter() {
         return (width + height) * 2;
+    }
+
+    @Override
+    public String toString() {
+        return "Rectangle{" +
+                "width=" + width +
+                ", height=" + height +
+                '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Rectangle rectangle = (Rectangle) o;
+        return Double.compare(rectangle.width, width) == 0 && Double.compare(rectangle.height, height) == 0;
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 55;
+        int hash = 1;
+        hash = prime * hash + Double.hashCode(width);
+        hash = prime * hash + Double.hashCode(height);
+        return hash;
     }
 }
