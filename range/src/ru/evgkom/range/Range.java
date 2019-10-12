@@ -1,3 +1,5 @@
+package ru.evgkom.range;
+
 public class Range {
     private double from;
     private double to;
@@ -25,13 +27,13 @@ public class Range {
 
     @Override
     public String toString() {
-        return "Range{" +
+        return "ru.evgkom.range.Range{" +
                 "from=" + from +
                 ", to=" + to +
                 '}';
     }
 
-    public double getRangeLength() {
+    public double getLength() {
         return to - from;
     }
 
@@ -44,19 +46,7 @@ public class Range {
             return null;
         }
 
-        if (from <= range.from && to >= range.to) {
-            return new Range(range.from, range.to);
-        }
-
-        if (from > range.from && to < range.to) {
-            return new Range(from, to);
-        }
-
-        if (from > range.from && to > range.to) {
-            return new Range(from, range.to);
-        }
-
-        return new Range(range.from, to);
+        return new Range(Math.max(from, range.from), Math.min(to, range.to));
     }
 
     public Range[] getUnion(Range range) {
@@ -64,19 +54,7 @@ public class Range {
             return new Range[]{new Range(from, to), new Range(range.from, range.to)};
         }
 
-        if (from <= range.from && to >= range.to) {
-            return new Range[]{new Range(from, to)};
-        }
-
-        if (from >= range.from && to <= range.to) {
-            return new Range[]{new Range(range.from, range.to)};
-        }
-
-        if (from >= range.from && to >= range.to) {
-            return new Range[]{new Range(range.from, to)};
-        }
-
-        return new Range[]{new Range(from, range.to)};
+        return new Range[]{new Range(Math.min(from, range.from), Math.max(to, range.to))};
     }
 
     public Range[] getDifference(Range range) {
@@ -98,6 +76,4 @@ public class Range {
 
         return new Range[]{new Range(from, range.from)};
     }
-
-
 }
