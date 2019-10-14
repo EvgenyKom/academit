@@ -39,10 +39,16 @@ public class Rectangle implements Shape {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+
         Rectangle rectangle = (Rectangle) o;
-        return Double.compare(rectangle.width, width) == 0 && Double.compare(rectangle.height, height) == 0;
+        return rectangle.width == width && rectangle.height == height;
     }
 
     @Override

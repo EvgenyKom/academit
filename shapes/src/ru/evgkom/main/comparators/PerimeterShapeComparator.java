@@ -1,4 +1,4 @@
-package ru.evgkom.shapes.comparators;
+package ru.evgkom.main.comparators;
 
 import ru.evgkom.shapes.Shape;
 

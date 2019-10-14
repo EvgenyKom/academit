@@ -2,26 +2,26 @@ package ru.evgkom.shapes;
 
 public class Triangle implements Shape {
     private double x1;
-    private double x2;
-    private double x3;
     private double y1;
+    private double x2;
     private double y2;
+    private double x3;
     private double y3;
 
-    private double max(double coordinate1, double coordinate2, double coordinate3) {
+    private static double max(double coordinate1, double coordinate2, double coordinate3) {
         return Math.max(Math.max(coordinate1, coordinate2), coordinate3);
     }
 
-    private double min(double coordinate1, double coordinate2, double coordinate3) {
+    private static double min(double coordinate1, double coordinate2, double coordinate3) {
         return Math.min(Math.min(coordinate1, coordinate2), coordinate3);
     }
 
-    public Triangle(double x1, double x2, double x3, double y1, double y2, double y3) {
+    public Triangle(double x1, double y1, double x2, double y2, double x3, double y3) {
         this.x1 = x1;
-        this.x2 = x2;
-        this.x3 = x3;
         this.y1 = y1;
+        this.x2 = x2;
         this.y2 = y2;
+        this.x3 = x3;
         this.y3 = y3;
     }
 
@@ -35,23 +35,20 @@ public class Triangle implements Shape {
         return max(y1, y2, y3) - min(y1, y2, y3);
     }
 
+    private static double getSide(double x1, double y1, double x2, double y2) {
+        return Math.sqrt((x1 - x2) * (x1 - x2) + (y1 - y2) * (y1 - y2));
+    }
+
     @Override
     public double getArea() {
-        double side12 = Math.sqrt((x1 - x2) * (x1 - x2) + (y1 - y2) * (y1 - y2));
-        double side23 = Math.sqrt((x2 - x3) * (x2 - x3) + (y2 - y3) * (y2 - y3));
-        double side31 = Math.sqrt((x1 - x3) * (x1 - x3) + (y1 - y3) * (y1 - y3));
-        double semiPerimeter = (side12 + side23 + side31) / 2;
+        double semiPerimeter = (getSide(x1, y1, x2, y2) + getSide(x2, y2, x3, y3) + getSide(x3, y3, x1, y1)) / 2;
 
-        return Math.sqrt((semiPerimeter * (semiPerimeter - side12) * (semiPerimeter - side23) * (semiPerimeter - side31)));
+        return Math.sqrt((semiPerimeter * (semiPerimeter - getSide(x1, y1, x2, y2)) * (semiPerimeter - getSide(x2, y2, x3, y3)) * (semiPerimeter - getSide(x3, y3, x1, y1))));
     }
 
     @Override
     public double getPerimeter() {
-        double side12 = Math.sqrt((x1 - x2) * (x1 - x2) + (y1 - y2) * (y1 - y2));
-        double side23 = Math.sqrt((x2 - x3) * (x2 - x3) + (y2 - y3) * (y2 - y3));
-        double side31 = Math.sqrt((x1 - x3) * (x1 - x3) + (y1 - y3) * (y1 - y3));
-
-        return side12 + side23 + side31;
+        return getSide(x1, y1, x2, y2) + getSide(x2, y2, x3, y3) + getSide(x3, y3, x1, y1);
     }
 
     @Override
@@ -68,15 +65,21 @@ public class Triangle implements Shape {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+
         Triangle triangle = (Triangle) o;
-        return Double.compare(triangle.x1, x1) == 0 &&
-                Double.compare(triangle.x2, x2) == 0 &&
-                Double.compare(triangle.x3, x3) == 0 &&
-                Double.compare(triangle.y1, y1) == 0 &&
-                Double.compare(triangle.y2, y2) == 0 &&
-                Double.compare(triangle.y3, y3) == 0;
+        return triangle.x1 == x1 &&
+                triangle.x2 == x2 &&
+                triangle.x3 == x3 &&
+                triangle.y1 == y1 &&
+                triangle.y2 == y2 &&
+                triangle.y3 == y3;
     }
 
     @Override

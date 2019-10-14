@@ -1,8 +1,8 @@
 package ru.evgkom.main;
 
 import ru.evgkom.shapes.*;
-import ru.evgkom.shapes.comparators.AreaShapeComparator;
-import ru.evgkom.shapes.comparators.PerimeterShapeComparator;
+import ru.evgkom.main.comparators.AreaShapeComparator;
+import ru.evgkom.main.comparators.PerimeterShapeComparator;
 
 import java.util.Arrays;
 import java.util.Comparator;
@@ -10,7 +10,7 @@ import java.util.Comparator;
 public class Main {
     public static void main(String[] args) {
         Shape[] shapes = {(new Circle(2)), (new Rectangle(6, 2.5)), (new Square(4.2)),
-                (new Triangle(1, 4, 2, 5, -3, 0)), new Circle(2.5), (new Square(0.5))};
+                (new Triangle(-2, -2, 2, 2, 2, -2)), new Circle(2.5), (new Square(0.5))};
 
         Shape maxAreaShape = getMaxAreaShape(shapes);
         System.out.println(maxAreaShape.getClass().toString());
