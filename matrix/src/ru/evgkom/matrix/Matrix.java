@@ -19,8 +19,10 @@ public class Matrix {
 
     public Matrix(int n, int m) {
         Vector[] array = new Vector[n];
-        for (int i = 0; i < n; i++) {
-            array[i] = new Vector(m);
+        int max = Math.max(n, m);
+
+        for (int i = 0; i < max; i++) {
+            array[i] = new Vector(max);
         }
 
         this.array = array;
@@ -54,12 +56,26 @@ public class Matrix {
         return this.array.length + "x" + this.array[0].getSize();
     }
 
-    public Vector getVectorString(int i) {
+    public Vector getVectorRow(int i) {
         return array[i];
     }
 
-    public void setVectorString(Vector vector, int i) {
+    public void setVectorRow(Vector vector, int i) {
         array[i] = new Vector(vector);
+    }
+
+    public Vector getVectorColumn(int i) {
+        Vector tempVector = new Vector(array.length);
+
+        for (int j = 0; j < array.length; j++) {
+            tempVector.setComponent(array[j].getComponent(i), j);
+        }
+
+        return tempVector;
+    }
+
+    public void transpose() {
+
     }
 
     @Override

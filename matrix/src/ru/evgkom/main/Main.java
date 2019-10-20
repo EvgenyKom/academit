@@ -23,9 +23,11 @@ public class Main {
 
         System.out.println(matrix1.getSize());
 
-        System.out.println(matrix3.getVectorString(2).toString());
-        matrix3.setVectorString(vector, 1);
+        System.out.println(matrix3.getVectorRow(2).toString());
+        matrix3.setVectorRow(vector, 1);
         System.out.println(matrix3.toString());
+
+        System.out.println(matrix3.getVectorColumn(0).toString());
 
     }
 }
