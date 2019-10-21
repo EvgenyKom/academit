@@ -21,21 +21,21 @@ public class Main {
         System.out.println("Вектор 5 : " + vector5.toString());
 
         System.out.println("Размерность вектора 5 - " + vector5.getSize());
-        vector2.addition(vector4);
+        vector2.addVector(vector4);
         System.out.println("Если ко второму вектору прибавить четвертый, то получится " + vector2.toString());
-        vector3.subtraction(vector1);
+        vector3.subtractVector(vector1);
         System.out.println("Если из третьего вектора вычесть первый, то получится " + vector3.toString());
-        vector5.scalarMultiplication(3);
+        vector5.multiplyVectorByScalar(3);
         System.out.println("Если пятый вектор умножить на 3, то получится " + vector5.toString());
         vector4.reverse();
         System.out.println("Развернутый вектор 4 будет " + vector4.toString());
-        System.out.println("Длина вектора 1 равна " + vector1.getLength());
-        vector1.setComponent(8,3);
+        System.out.println("Длина вектора 4 равна " + vector4.getLength());
+        vector1.setComponent(3, 8);
         System.out.println("Вектор 1 : " + vector1.toString());
         System.out.println("Компонент 2 вектора 1 равен " + vector1.getComponent(1));
         System.out.println("Равны ли векторы 1 и 5 - " + vector1.equals(vector5));
-        System.out.println("Сложение векторов 2 и 3 = " + Vector.getaAdition(vector2,vector3));
-        System.out.println("Разность векторов 5 и 4 = " + Vector.getSubtraction(vector5,vector4));
-        System.out.println("Сколярное произведение векторов 2 и 4 = " + Vector.getScalarProduct(vector2,vector4));
+        System.out.println("Сложение векторов 2 и 3 = " + Vector.getAddition(vector2, vector3));
+        System.out.println("Разность векторов 5 и 4 = " + Vector.getSubtraction(vector5, vector4));
+        System.out.println("Сколярное произведение векторов 2 и 4 = " + Vector.getScalarProduct(vector2, vector4));
     }
 }
