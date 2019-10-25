@@ -19,7 +19,7 @@ public class Main {
         Matrix matrix4 = new Matrix(vectors);
         Matrix matrix5 = new Matrix(array2);
 
-        System.out.println(Matrix.getMatrixProduct(matrix3, matrix5).toString());
+        System.out.println(Matrix.getProduct(matrix3, matrix5).toString());
 
         System.out.println(matrix1.toString());
         System.out.println(matrix2.toString());
@@ -37,7 +37,7 @@ public class Main {
         matrix3.transpose();
         System.out.println(matrix3.toString());
 
-        matrix3.multiplyMatrixByScalar(-2);
+        matrix3.multiplyByScalar(-2);
         System.out.println(matrix3.toString());
 
         System.out.println(matrix5.getDeterminant());

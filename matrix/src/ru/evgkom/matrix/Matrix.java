@@ -50,7 +50,7 @@ public class Matrix {
 
         for (int i = 0; i < vectors.length; i++) {
             tempVectors[i] = new Vector(maxLength);
-            tempVectors[i].addVector(vectors[i]);
+            tempVectors[i].add(vectors[i]);
         }
 
         this.vectors = tempVectors;
@@ -76,7 +76,7 @@ public class Matrix {
 
         int tempLength = vectors[i].getSize();
         vectors[i] = new Vector(tempLength);
-        vectors[i].addVector(vector);
+        vectors[i].add(vector);
     }
 
     public Vector getVectorColumn(int i) {
@@ -103,7 +103,7 @@ public class Matrix {
         vectors = tempVectors;
     }
 
-    public void multiplyMatrixByScalar(double scalar) {
+    public void multiplyByScalar(double scalar) {
         for (Vector v : vectors) {
             v.multiplyByScalar(scalar);
         }
@@ -183,17 +183,17 @@ public class Matrix {
         }
 
         for (int i = 0; i < matrix.vectors.length; i++) {
-            this.vectors[i].addVector(matrix.vectors[i]);
+            this.vectors[i].add(matrix.vectors[i]);
         }
     }
 
-    public void substract(Matrix matrix) {
+    public void subtract(Matrix matrix) {
         if (matrix.vectors.length != vectors.length || matrix.vectors[0].getSize() != vectors[0].getSize()) {
             throw new IllegalArgumentException("Matrices must be the same size.");
         }
 
         for (int i = 0; i < matrix.vectors.length; i++) {
-            this.vectors[i].subtractVector(matrix.vectors[i]);
+            this.vectors[i].subtract(matrix.vectors[i]);
         }
     }
 
@@ -206,12 +206,12 @@ public class Matrix {
 
     public static Matrix getSubtraction(Matrix matrix1, Matrix matrix2) {
         Matrix tempMatrix = new Matrix(matrix1);
-        tempMatrix.substract(matrix2);
+        tempMatrix.subtract(matrix2);
 
         return tempMatrix;
     }
 
-    public static Matrix getMatrixProduct(Matrix matrix1, Matrix matrix2) {
+    public static Matrix getProduct(Matrix matrix1, Matrix matrix2) {
         if (matrix1.vectors.length != matrix2.vectors.length || matrix1.vectors[0].getSize() != matrix2.vectors[0].getSize()) {
             throw new IllegalArgumentException("Matrices must be the same size.");
         }
