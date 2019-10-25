@@ -88,14 +88,14 @@ public class Vector {
         }
     }
 
-    public void multiplyVectorByScalar(double scalar) {
+    public void multiplyByScalar(double scalar) {
         for (int i = 0; i < orderedSet.length; i++) {
             orderedSet[i] *= scalar;
         }
     }
 
     public void reverse() {
-        multiplyVectorByScalar(-1);
+        multiplyByScalar(-1);
     }
 
     public double getLength() {

@@ -25,7 +25,7 @@ public class Main {
         System.out.println("Если ко второму вектору прибавить четвертый, то получится " + vector2.toString());
         vector3.subtractVector(vector1);
         System.out.println("Если из третьего вектора вычесть первый, то получится " + vector3.toString());
-        vector5.multiplyVectorByScalar(3);
+        vector5.multiplyByScalar(3);
         System.out.println("Если пятый вектор умножить на 3, то получится " + vector5.toString());
         vector4.reverse();
         System.out.println("Развернутый вектор 4 будет " + vector4.toString());
