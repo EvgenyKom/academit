@@ -21,9 +21,9 @@ public class Main {
         System.out.println("Вектор 5 : " + vector5.toString());
 
         System.out.println("Размерность вектора 5 - " + vector5.getSize());
-        vector2.addVector(vector4);
+        vector2.add(vector4);
         System.out.println("Если ко второму вектору прибавить четвертый, то получится " + vector2.toString());
-        vector3.subtractVector(vector1);
+        vector3.subtract(vector1);
         System.out.println("Если из третьего вектора вычесть первый, то получится " + vector3.toString());
         vector5.multiplyByScalar(3);
         System.out.println("Если пятый вектор умножить на 3, то получится " + vector5.toString());
