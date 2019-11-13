@@ -25,7 +25,7 @@ public class Main {
         System.out.println("Матрица 4 : " + matrix4.toString());
         System.out.println("Матрица 5 : " + matrix5.toString());
 
-        System.out.println("Число строк в матрице 1 - " + matrix1.getRowCount() + ", число столбцов в матрице 1 - " + matrix1.getColumnCount());
+        System.out.println("Число строк в матрице 1 - " + matrix1.getRowsCount() + ", число столбцов в матрице 1 - " + matrix1.getColumnsCount());
 
         System.out.println("Строка по индексу 2 в матрице 3 : " + matrix3.getRow(2).toString());
         matrix3.setRow(1, vector);
