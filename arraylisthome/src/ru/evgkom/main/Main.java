@@ -6,9 +6,9 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Main {
-    public static void main(String[] args) throws FileNotFoundException {
+    public static void main(String[] args) {
         String fileName = "input.txt";
-        System.out.println("Массив из файдла input.txt, прочитанный построчно = " + readLinesFromFile(fileName));
+        System.out.println("Массив из файла input.txt, прочитанный построчно = " + readLinesFromFile(fileName));
 
         ArrayList<Integer> arrayList = new ArrayList<>();
 
@@ -16,11 +16,9 @@ public class Main {
             arrayList.add(i);
         }
 
-        System.out.println("Массив чичел : " + arrayList.toString());
+        System.out.println("Массив чисел = " + arrayList);
         deleteEvenNumbers(arrayList);
-        System.out.println("Массив чичел после удаления четных чисел: " + arrayList.toString());
-
-
+        System.out.println("Массив чисел после удаления четных чисел = " + arrayList);
 
         ArrayList<Integer> arrayList1 = new ArrayList<>();
         int[] array = {1, 3, 4, -2, 0, 4, 8, 3, 23, 1, 7, 4, 0, -1, 1, -1, 1, 6};
@@ -29,31 +27,35 @@ public class Main {
             arrayList1.add(value);
         }
 
-        System.out.println("Массив чичел : " + arrayList1.toString());
-        System.out.println("Массив чичел после удаления повторяющихся чисел: " + removeRepetition(arrayList1).toString());
-
+        System.out.println("Массив чисел = " + arrayList1);
+        System.out.println("Массив чисел после удаления повторяющихся чисел = " + getListWithoutRepetition(arrayList1));
     }
 
-    private static ArrayList<String> readLinesFromFile(String inputFileName) throws FileNotFoundException {
-        ArrayList<String> arrayList = new ArrayList<>();
+    private static ArrayList<String> readLinesFromFile(String inputFileName) {
+        ArrayList<String> stringArrayList = new ArrayList<>();
+
         try (Scanner scanner = new Scanner(new FileInputStream(inputFileName))) {
             while (scanner.hasNextLine()) {
-                arrayList.add(scanner.nextLine());
+                stringArrayList.add(scanner.nextLine());
             }
+        } catch (FileNotFoundException e) {
+            throw new IllegalArgumentException("File not found");
         }
 
-        return arrayList;
+        return stringArrayList;
     }
 
     private static void deleteEvenNumbers(ArrayList<Integer> arrayList) {
-        for (int i = 0; i < arrayList.size(); i++) {
-            if (arrayList.get(i) % 2 == 0 && arrayList.get(i) != 0) {
-                arrayList.remove(arrayList.get(i));
+        for (int i = 0; i < arrayList.size(); ) {
+            if (arrayList.get(i) % 2 == 0) {
+                arrayList.remove(i);
             }
+
+            i++;
         }
     }
 
-    private static ArrayList<Integer> removeRepetition(ArrayList<Integer> arrayList) {
+    private static ArrayList<Integer> getListWithoutRepetition(ArrayList<Integer> arrayList) {
         ArrayList<Integer> integerArrayList = new ArrayList<>(arrayList.size());
 
         for (Integer n : arrayList) {
