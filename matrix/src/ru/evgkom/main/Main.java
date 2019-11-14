@@ -55,7 +55,5 @@ public class Main {
         System.out.println("Разность матриц 2 и 3" + Matrix.getSubtraction(matrix2, matrix3).toString());
 
         System.out.println("Произведение матриц 2 и 3" + Matrix.getProduct(matrix2, matrix3).toString());
-
-
     }
 }

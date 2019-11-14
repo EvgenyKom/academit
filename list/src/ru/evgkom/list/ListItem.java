@@ -1,7 +1,5 @@
 package ru.evgkom.list;
 
-import java.util.List;
-
 public class ListItem<T> {
     private T data;
     private ListItem<T> next;
