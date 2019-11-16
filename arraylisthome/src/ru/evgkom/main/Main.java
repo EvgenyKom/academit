@@ -8,7 +8,11 @@ import java.util.Scanner;
 public class Main {
     public static void main(String[] args) {
         String fileName = "input.txt";
-        System.out.println("Массив из файла input.txt, прочитанный построчно = " + readLinesFromFile(fileName));
+        try {
+            System.out.println("Массив из файла input.txt, прочитанный построчно = " + readLinesFromFile(fileName));
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
 
         ArrayList<Integer> arrayList = new ArrayList<>();
 
@@ -28,34 +32,33 @@ public class Main {
         }
 
         System.out.println("Массив чисел = " + arrayList1);
-        System.out.println("Массив чисел после удаления повторяющихся чисел = " + getListWithoutRepetition(arrayList1));
+        System.out.println("Массив чисел после удаления повторяющихся чисел = " + getListWithoutRepetitions(arrayList1));
     }
 
-    private static ArrayList<String> readLinesFromFile(String inputFileName) {
-        ArrayList<String> stringArrayList = new ArrayList<>();
+    private static ArrayList<String> readLinesFromFile(String inputFileName) throws FileNotFoundException {
+        ArrayList<String> stringsList = new ArrayList<>();
 
         try (Scanner scanner = new Scanner(new FileInputStream(inputFileName))) {
             while (scanner.hasNextLine()) {
-                stringArrayList.add(scanner.nextLine());
+                stringsList.add(scanner.nextLine());
             }
-        } catch (FileNotFoundException e) {
-            throw new IllegalArgumentException("File not found");
         }
 
-        return stringArrayList;
+        return stringsList;
     }
 
     private static void deleteEvenNumbers(ArrayList<Integer> arrayList) {
         for (int i = 0; i < arrayList.size(); ) {
             if (arrayList.get(i) % 2 == 0) {
                 arrayList.remove(i);
+                continue;
             }
 
             i++;
         }
     }
 
-    private static ArrayList<Integer> getListWithoutRepetition(ArrayList<Integer> arrayList) {
+    private static ArrayList<Integer> getListWithoutRepetitions(ArrayList<Integer> arrayList) {
         ArrayList<Integer> integerArrayList = new ArrayList<>(arrayList.size());
 
         for (Integer n : arrayList) {
