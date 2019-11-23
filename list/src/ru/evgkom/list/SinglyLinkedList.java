@@ -1,14 +1,15 @@
 package ru.evgkom.list;
 
+import java.util.Objects;
+
 public class SinglyLinkedList<T> {
     private ListItem<T> head;
     private int count;
 
     private ListItem<T> getItem(int index) {
-        int i = 0;
         ListItem<T> p = head;
 
-        for (; p != null; p = p.getNext(), i++) {
+        for (int i = 0; p != null; p = p.getNext(), i++) {
             if (i == index) {
                 break;
             }
@@ -22,6 +23,10 @@ public class SinglyLinkedList<T> {
     }
 
     public T getHead() {
+        if (count == 0) {
+            throw new NullPointerException("List is empty.");
+        }
+
         return head.getData();
     }
 
@@ -31,10 +36,6 @@ public class SinglyLinkedList<T> {
         }
 
         ListItem<T> p = getItem(index);
-
-        if (p == null) {
-            throw new NullPointerException("List must not be null!");
-        }
 
         return p.getData();
     }
@@ -96,22 +97,19 @@ public class SinglyLinkedList<T> {
     }
 
     public boolean delete(T data) {
-        int i = 0;
+        ListItem<T> p = head;
 
-        if (data == null) {
-            for (ListItem<T> p = head; p != null; p = p.getNext(), i++) {
-                if (p.getData() == null) {
-                    delete(i);
-                    return true;
-                }
-            }
+        if (Objects.equals(p.getData(), data)) {
+            head = p.getNext();
+            count--;
 
-            return false;
+            return true;
         }
 
-        for (ListItem<T> p = head; p != null; p = p.getNext(), i++) {
-            if (p.getData().equals(data)) {
-                delete(i);
+        for (; p.getNext() != null; p = p.getNext()) {
+            if (Objects.equals(p.getNext().getData(), data)) {
+                p.setNext(p.getNext().getNext());
+
                 return true;
             }
         }
@@ -138,14 +136,20 @@ public class SinglyLinkedList<T> {
         }
     }
 
-    public void copy(SinglyLinkedList<T> list) {
-        ListItem<T> tempItem = getItem(count - 1);
-        ListItem<T> p = list.head;
+    public SinglyLinkedList<T> copy() {
+        SinglyLinkedList<T> list = new SinglyLinkedList<>();
 
-        for (int i = 0; i < list.count; i++, p = p.getNext()) {
-            tempItem.setNext(new ListItem<>(p.getData()));
-            tempItem = tempItem.getNext();
+        list.head = new ListItem<>(head.getData());
+        list.count++;
+
+        for (ListItem<T> p = head.getNext(), k = list.head; p != null; p = p.getNext()) {
+            k.setNext(new ListItem<>(p.getData()));
+            k = k.getNext();
+
+            list.count++;
         }
+
+        return list;
     }
 
     @Override
