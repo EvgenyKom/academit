@@ -13,7 +13,7 @@ public class Main {
 
         Vector vector = new Vector(array3);
 
-        Matrix matrix1 = new Matrix(5, 6);
+        Matrix matrix1 = new Matrix(5, 3);
         Matrix matrix2 = new Matrix(array2);
         Matrix matrix3 = new Matrix(array1);
         Matrix matrix4 = new Matrix(vectors);
@@ -25,7 +25,7 @@ public class Main {
         System.out.println("Матрица 4 : " + matrix4.toString());
         System.out.println("Матрица 5 : " + matrix5.toString());
 
-        System.out.println("Число строк в матрице 1 - " + matrix1.getRowsCount() + ", число столбцов в матрице 1 - " + matrix1.getColumnsCount());
+        System.out.println("Число строк в матрице 1 - " + matrix1.getColumnsCount() + ", число столбцов в матрице 1 - " + matrix1.getRowsCount());
 
         System.out.println("Строка по индексу 2 в матрице 3 : " + matrix3.getRow(2).toString());
         matrix3.setRow(1, vector);
@@ -55,5 +55,7 @@ public class Main {
         System.out.println("Разность матриц 2 и 3" + Matrix.getSubtraction(matrix2, matrix3).toString());
 
         System.out.println("Произведение матриц 2 и 3" + Matrix.getProduct(matrix2, matrix3).toString());
+
+        System.out.println("Произведение матриц 1 и 3" + Matrix.getProduct(matrix1, matrix3).toString());
     }
 }
