@@ -1,5 +1,6 @@
 package ru.evgkom.list;
 
+import java.util.NoSuchElementException;
 import java.util.Objects;
 
 public class SinglyLinkedList<T> {
@@ -24,7 +25,7 @@ public class SinglyLinkedList<T> {
 
     public T getHead() {
         if (count == 0) {
-            throw new NullPointerException("List is empty.");
+            throw new NoSuchElementException("List is empty.");
         }
 
         return head.getData();
@@ -109,6 +110,7 @@ public class SinglyLinkedList<T> {
         for (; p.getNext() != null; p = p.getNext()) {
             if (Objects.equals(p.getNext().getData(), data)) {
                 p.setNext(p.getNext().getNext());
+                count--;
 
                 return true;
             }
@@ -139,12 +141,15 @@ public class SinglyLinkedList<T> {
     public SinglyLinkedList<T> copy() {
         SinglyLinkedList<T> list = new SinglyLinkedList<>();
 
-        list.head = new ListItem<>(head.getData());
-        list.count++;
+        if (head == null) {
+            return list;
+        }
 
-        for (ListItem<T> p = head.getNext(), k = list.head; p != null; p = p.getNext()) {
-            k.setNext(new ListItem<>(p.getData()));
-            k = k.getNext();
+        list.addToStart(head.getData());
+
+        for (ListItem<T> p = head.getNext(), tempListItem = list.head; p != null; p = p.getNext()) {
+            tempListItem.setNext(new ListItem<>(p.getData()));
+            tempListItem = tempListItem.getNext();
 
             list.count++;
         }
