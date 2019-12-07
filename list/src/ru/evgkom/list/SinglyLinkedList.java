@@ -150,9 +150,9 @@ public class SinglyLinkedList<T> {
         for (ListItem<T> p = head.getNext(), tempListItem = list.head; p != null; p = p.getNext()) {
             tempListItem.setNext(new ListItem<>(p.getData()));
             tempListItem = tempListItem.getNext();
-
-            list.count++;
         }
+
+        list.count = count;
 
         return list;
     }
