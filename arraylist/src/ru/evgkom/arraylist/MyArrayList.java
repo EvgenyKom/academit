@@ -14,17 +14,24 @@ public class MyArrayList<E> implements List<E> {
     }
 
     public MyArrayList(int initialCapacity) {
+        if (initialCapacity <= 0) {
+            throw new IndexOutOfBoundsException("Initial capacity must be > 0.");
+        }
+
         //noinspection unchecked
         items = (E[]) new Object[initialCapacity];
     }
 
-    public void ensureCapacity(int minCapacity) {
-        int tempLength = items.length;
-        while (tempLength <= minCapacity) {
-            tempLength *= 2;
+    private void ensureCapacity(int minCapacity) {
+        if (items.length < minCapacity) {
+            items = Arrays.copyOf(items, minCapacity);
         }
+    }
 
-        items = Arrays.copyOf(items, tempLength);
+    private void indexValidation(int index) {
+        if (index >= size || index < 0) {
+            throw new IndexOutOfBoundsException("Index must be >= 0 and < size.");
+        }
     }
 
     private class MyArrayListIterator implements Iterator<E> {
@@ -108,19 +115,22 @@ public class MyArrayList<E> implements List<E> {
 
     @Override
     public boolean remove(Object o) {
-        for (int index = 0; index < size; index++) {
-            if (Objects.equals(items[index], o)) {
+        for (int i = 0; i < size; i++) {
+            if (Objects.equals(items[i], o)) {
                 modCount++;
 
-                if (size - index - 1 > 0) {
-                    System.arraycopy(items, index + 1, items, index, size - index - 1);
+                if (size - i - 1 > 0) {
+                    System.arraycopy(items, i + 1, items, i, size - i - 1);
                     size--;
-                    return true;
+                } else {
+                    size--;
+                    items[size] = null;
                 }
+
+                return true;
             }
         }
 
-        items[--size] = null;
         return false;
     }
 
@@ -137,6 +147,8 @@ public class MyArrayList<E> implements List<E> {
 
     @Override
     public boolean addAll(Collection<? extends E> c) {
+        ensureCapacity(items.length + c.size());
+
         for (Object o : c) {
             //noinspection unchecked
             add((E) o);
@@ -151,23 +163,26 @@ public class MyArrayList<E> implements List<E> {
             throw new IndexOutOfBoundsException("Index must be <= size and >= 0");
         }
 
-        Object[] a = c.toArray();
-        int tempNumber = a.length;
+        int collectionSize = c.size();
 
-        ensureCapacity(size + tempNumber);
+        if (collectionSize == 0) {
+            return false;
+        }
+
+        ensureCapacity(items.length + collectionSize);
         modCount++;
 
         int numMoved = size - index;
 
         if (numMoved > 0) {
-            System.arraycopy(items, index, items, index + tempNumber, numMoved);
+            System.arraycopy(items, index, items, index + collectionSize, numMoved);
         }
 
         //noinspection SuspiciousSystemArraycopy
-        System.arraycopy(a, 0, items, index, tempNumber);
-        size += tempNumber;
+        System.arraycopy(c, 0, items, index, collectionSize);
+        size += collectionSize;
 
-        return tempNumber != 0;
+        return true;
     }
 
     @Override
@@ -188,17 +203,7 @@ public class MyArrayList<E> implements List<E> {
         boolean modified = false;
 
         for (int i = 0; i < size; ) {
-            boolean contains = false;
-
-            for (Object o : c) {
-                if (Objects.equals(items[i], o)) {
-                    contains = true;
-
-                    break;
-                }
-            }
-
-            if (!contains) {
+            if (!c.contains(items[i])) {
                 modified = true;
                 remove(i);
 
@@ -224,18 +229,14 @@ public class MyArrayList<E> implements List<E> {
 
     @Override
     public E get(int index) {
-        if (index >= size || index < 0) {
-            throw new IndexOutOfBoundsException("Index must be >= 0 and < size.");
-        }
+        indexValidation(index);
 
         return items[index];
     }
 
     @Override
     public E set(int index, E element) {
-        if (index >= size || index < 0) {
-            throw new IndexOutOfBoundsException("Index must be >= 0 and < size.");
-        }
+        indexValidation(index);
 
         E tempItem = items[index];
         items[index] = element;
@@ -258,9 +259,7 @@ public class MyArrayList<E> implements List<E> {
 
     @Override
     public E remove(int index) {
-        if (index >= size || index < 0) {
-            throw new IndexOutOfBoundsException("Index must be >= 0 and < size.");
-        }
+        indexValidation(index);
 
         modCount++;
 
@@ -278,7 +277,7 @@ public class MyArrayList<E> implements List<E> {
     @Override
     public int indexOf(Object o) {
         for (int i = 0; i < size; i++) {
-            if (Objects.equals(items[i], null)) {
+            if (Objects.equals(items[i], o)) {
                 return i;
             }
         }
@@ -289,7 +288,7 @@ public class MyArrayList<E> implements List<E> {
     @Override
     public int lastIndexOf(Object o) {
         for (int i = size - 1; i >= 0; i--) {
-            if (Objects.equals(items[i], null)) {
+            if (Objects.equals(items[i], o)) {
                 return i;
             }
         }
@@ -299,12 +298,7 @@ public class MyArrayList<E> implements List<E> {
 
     public void trimToSize() {
         if (size < items.length) {
-            if (size == 0) {
-                //noinspection unchecked
-                items = (E[]) new Object[]{};
-            } else {
-                items = Arrays.copyOf(items, size);
-            }
+            items = Arrays.copyOf(items, size);
         }
     }
 
