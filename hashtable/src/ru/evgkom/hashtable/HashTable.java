@@ -3,16 +3,17 @@ package ru.evgkom.hashtable;
 import java.util.*;
 
 public class HashTable<T> implements Collection<T> {
-    private ArrayList[] lists;
+    private ArrayList<T>[] lists;
     private int modCount;
     private int size;
     private static final int HASHTABLE_ARRAY_SIZE = 10;
 
-    private int index(Object o) {
+    private int getIndex(Object o) {
         return Math.abs(o.hashCode() % lists.length);
     }
 
     public HashTable() {
+        //noinspection unchecked
         lists = new ArrayList[HASHTABLE_ARRAY_SIZE];
     }
 
@@ -20,7 +21,7 @@ public class HashTable<T> implements Collection<T> {
         private int currentList = 0;
         private int currentListIndex = 0;
         private int currentCollectionIndex = 0;
-        int expectedModCount = modCount;
+        private int expectedModCount = modCount;
 
         @Override
         public boolean hasNext() {
@@ -33,7 +34,7 @@ public class HashTable<T> implements Collection<T> {
                 throw new ConcurrentModificationException("The collection has changed during iterations.");
             }
 
-            if (currentCollectionIndex >= size()) {
+            if (!hasNext()) {
                 throw new NoSuchElementException("Collection has ended.");
             }
 
@@ -42,7 +43,6 @@ public class HashTable<T> implements Collection<T> {
                 currentListIndex = 0;
             }
 
-            //noinspection unchecked
             T nextData = (T) lists[currentList].get(currentListIndex);
             currentListIndex++;
             currentCollectionIndex++;
@@ -58,28 +58,16 @@ public class HashTable<T> implements Collection<T> {
 
     @Override
     public boolean isEmpty() {
-        for (ArrayList list : lists) {
-            if (list != null && list.size() > 0) {
-                return false;
-            }
-        }
-
-        return true;
+        return size == 0;
     }
 
     @Override
     public boolean contains(Object o) {
-        if (lists[index(o)] == null) {
+        if (lists[getIndex(o)] == null) {
             return false;
         }
 
-        for (Object object : lists[index(o)]) {
-            if (Objects.equals(o, object)) {
-                return true;
-            }
-        }
-
-        return false;
+        return lists[getIndex(o)].contains(o);
     }
 
     @Override
@@ -88,7 +76,7 @@ public class HashTable<T> implements Collection<T> {
     }
 
     @Override
-    public T[] toArray() {
+    public Object[] toArray() {
         Iterator<T> iterator = iterator();
         //noinspection unchecked
         T[] array = (T[]) new Object[size()];
@@ -104,7 +92,7 @@ public class HashTable<T> implements Collection<T> {
     public <T1> T1[] toArray(T1[] a) {
         if (a.length < size()) {
             //noinspection unchecked
-            return (T1[]) toArray();
+            return (T1[]) Arrays.copyOf(toArray(), size);
         }
 
         Iterator<T> iterator = iterator();
@@ -122,32 +110,27 @@ public class HashTable<T> implements Collection<T> {
         modCount++;
         size++;
 
-        if (lists[index(t)] == null) {
-            lists[index(t)] = new ArrayList();
+        if (lists[getIndex(t)] == null) {
+            //noinspection unchecked
+            lists[getIndex(t)] = new ArrayList();
         }
 
-        //noinspection unchecked
-        lists[index(t)].add(t);
+        lists[getIndex(t)].add(t);
 
         return true;
     }
 
     @Override
     public boolean remove(Object o) {
-        if (lists[index(o)] == null || lists[index(o)].size() == 0) {
+        if (lists[getIndex(o)] == null || lists[getIndex(o)].size() == 0) {
             return false;
         }
 
-        ArrayList list = lists[index(o)];
+        if (lists[getIndex(o)].remove(o)) {
+            modCount++;
+            size--;
 
-        for (int i = 0; i < list.size(); i++) {
-            if (Objects.equals(o, list.get(i))) {
-                list.remove(i);
-                modCount++;
-                size--;
-
-                return true;
-            }
+            return true;
         }
 
         return false;
@@ -220,6 +203,7 @@ public class HashTable<T> implements Collection<T> {
 
     @Override
     public void clear() {
+        //noinspection unchecked
         lists = new ArrayList[HASHTABLE_ARRAY_SIZE];
         size = 0;
         modCount++;

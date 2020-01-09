@@ -12,6 +12,7 @@ public class Main {
         ArrayList<Integer> arrayList1 = new ArrayList<>();
         ArrayList<Integer> arrayList2 = new ArrayList<>();
 
+
         arrayList1.add(7);
         arrayList1.add(0);
         arrayList1.add(222);
