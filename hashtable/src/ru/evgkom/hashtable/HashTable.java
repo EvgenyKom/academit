@@ -43,7 +43,7 @@ public class HashTable<T> implements Collection<T> {
                 currentListIndex = 0;
             }
 
-            T nextData = (T) lists[currentList].get(currentListIndex);
+            T nextData = lists[currentList].get(currentListIndex);
             currentListIndex++;
             currentCollectionIndex++;
 
@@ -92,7 +92,9 @@ public class HashTable<T> implements Collection<T> {
     public <T1> T1[] toArray(T1[] a) {
         if (a.length < size()) {
             //noinspection unchecked
-            return (T1[]) Arrays.copyOf(toArray(), size);
+            T1[] array = (T1[]) toArray();
+            //noinspection unchecked
+            return Arrays.copyOf(toArray(), size, (Class<? extends T1[]>) a.getClass());
         }
 
         Iterator<T> iterator = iterator();
@@ -110,12 +112,14 @@ public class HashTable<T> implements Collection<T> {
         modCount++;
         size++;
 
-        if (lists[getIndex(t)] == null) {
+        int tempIndex = getIndex(t);
+
+        if (lists[tempIndex] == null) {
             //noinspection unchecked
-            lists[getIndex(t)] = new ArrayList();
+            lists[tempIndex] = new ArrayList();
         }
 
-        lists[getIndex(t)].add(t);
+        lists[tempIndex].add(t);
 
         return true;
     }
@@ -149,14 +153,14 @@ public class HashTable<T> implements Collection<T> {
 
     @Override
     public boolean addAll(Collection<? extends T> c) {
-        modCount++;
+        int expectedModCount = modCount;
 
         for (Object o : c) {
             //noinspection unchecked
             add((T) o);
         }
 
-        return true;
+        return expectedModCount != modCount;
     }
 
     @Override
@@ -172,31 +176,20 @@ public class HashTable<T> implements Collection<T> {
     @Override
     public boolean retainAll(Collection<?> c) {
         boolean modified = false;
-        ArrayList<T> tempList = new ArrayList<>();
-        HashTableIterator iterator = new HashTableIterator();
 
-        while (iterator.hasNext()) {
-            T item = iterator.next();
-            boolean contained = false;
+        //noinspection rawtypes
+        for (ArrayList list : lists) {
+            if (list == null) {
+                continue;
+            }
+            int originalLength = list.size();
 
-            for (Object o : c) {
-                if (Objects.equals(o, item)) {
-                    contained = true;
-
-                    break;
-                }
+            if (list.retainAll(c)) {
+                size -= (originalLength - list.size());
+                modified = true;
             }
 
-            if (!contained) {
-                tempList.add(item);
-            }
         }
-
-        if (tempList.size() != 0) {
-            modified = true;
-        }
-
-        removeAll(tempList);
 
         return modified;
     }
