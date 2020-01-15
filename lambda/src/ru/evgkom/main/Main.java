@@ -21,16 +21,18 @@ public class Main {
         list.add(new Person("Ирина", 21));
 
         List<String> distinctNamesList = list.stream()
-                .map(Person::getName).distinct()
+                .map(Person::getName)
+                .distinct()
                 .collect(Collectors.toList());
 
         String distinctNames = distinctNamesList.stream()
                 .collect(Collectors.joining(", ", "Имена: ", "."));
         System.out.println(distinctNames);
 
-        List<Person> sortedList = list.stream()
-                .filter(p -> p.getAge() < 18).collect(Collectors.toList());
-        sortedList.stream()
+        List<Person> underageList = list.stream()
+                .filter(p -> p.getAge() < 18)
+                .collect(Collectors.toList());
+        underageList.stream()
                 .mapToDouble(Person::getAge)
                 .average()
                 .ifPresent(avg -> System.out.println("Средний возраст людей младше 18 лет - " + avg));
@@ -40,7 +42,8 @@ public class Main {
         System.out.println(avgAgeByNames.toString());
 
         list.stream()
-                .filter(p -> p.getAge() >= 20 && p.getAge() <= 45).sorted((p2, p1) -> p1.getAge() - p2.getAge())
+                .filter(p -> p.getAge() >= 20 && p.getAge() <= 45)
+                .sorted((p2, p1) -> p1.getAge() - p2.getAge())
                 .map(Person::getName)
                 .forEach(s -> System.out.print(s + " "));
     }
