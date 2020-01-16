@@ -15,7 +15,7 @@ public class MyArrayList<E> implements List<E> {
 
     public MyArrayList(int initialCapacity) {
         if (initialCapacity <= 0) {
-            throw new IndexOutOfBoundsException("Initial capacity must be > 0.");
+            throw new IllegalArgumentException("Initial capacity must be > 0.");
         }
 
         //noinspection unchecked
@@ -24,11 +24,11 @@ public class MyArrayList<E> implements List<E> {
 
     private void ensureCapacity(int minCapacity) {
         if (items.length < minCapacity) {
-            items = Arrays.copyOf(items, minCapacity);
+            items = Arrays.copyOf(items, minCapacity * 2);
         }
     }
 
-    private void indexValidation(int index) {
+    private void validateIndex(int index) {
         if (index >= size || index < 0) {
             throw new IndexOutOfBoundsException("Index must be >= 0 and < size.");
         }
@@ -115,20 +115,11 @@ public class MyArrayList<E> implements List<E> {
 
     @Override
     public boolean remove(Object o) {
-        for (int i = 0; i < size; i++) {
-            if (Objects.equals(items[i], o)) {
-                modCount++;
+        int index = indexOf(o);
 
-                if (size - i - 1 > 0) {
-                    System.arraycopy(items, i + 1, items, i, size - i - 1);
-                    size--;
-                } else {
-                    size--;
-                    items[size] = null;
-                }
-
-                return true;
-            }
+        if (index > -1) {
+            remove(index);
+            return true;
         }
 
         return false;
@@ -147,12 +138,14 @@ public class MyArrayList<E> implements List<E> {
 
     @Override
     public boolean addAll(Collection<? extends E> c) {
-        ensureCapacity(items.length + c.size());
+        Object[] array = c.toArray();
+        int collectionLength = array.length;
+        ensureCapacity(size + collectionLength);
 
-        for (Object o : c) {
-            //noinspection unchecked
-            add((E) o);
-        }
+        modCount++;
+        //noinspection SuspiciousSystemArraycopy
+        System.arraycopy(array, 0, items, size, collectionLength);
+        size += collectionLength;
 
         return c.size() != 0;
     }
@@ -179,7 +172,7 @@ public class MyArrayList<E> implements List<E> {
         }
 
         //noinspection SuspiciousSystemArraycopy
-        System.arraycopy(c, 0, items, index, collectionSize);
+        System.arraycopy(c.toArray(), 0, items, index, collectionSize);
         size += collectionSize;
 
         return true;
@@ -202,15 +195,11 @@ public class MyArrayList<E> implements List<E> {
     public boolean retainAll(Collection<?> c) {
         boolean modified = false;
 
-        for (int i = 0; i < size; ) {
+        for (int i = size - 1; i >= 0; i--) {
             if (!c.contains(items[i])) {
                 modified = true;
                 remove(i);
-
-                continue;
             }
-
-            i++;
         }
 
         return modified;
@@ -229,14 +218,14 @@ public class MyArrayList<E> implements List<E> {
 
     @Override
     public E get(int index) {
-        indexValidation(index);
+        validateIndex(index);
 
         return items[index];
     }
 
     @Override
     public E set(int index, E element) {
-        indexValidation(index);
+        validateIndex(index);
 
         E tempItem = items[index];
         items[index] = element;
@@ -249,7 +238,7 @@ public class MyArrayList<E> implements List<E> {
             throw new IndexOutOfBoundsException("Index must be <= size and >= 0");
         }
 
-        ensureCapacity(size + 1);
+        ensureCapacity(size + 10);
         modCount++;
 
         System.arraycopy(items, index, items, index + 1, size - index);
@@ -259,7 +248,7 @@ public class MyArrayList<E> implements List<E> {
 
     @Override
     public E remove(int index) {
-        indexValidation(index);
+        validateIndex(index);
 
         modCount++;
 
